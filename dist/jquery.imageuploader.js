@@ -241,7 +241,7 @@
                         console.log(downloadURL);
                         // Upload completed successfully, now we can get the download URL
                         var xhr = new XMLHttpRequest();
-                        xhr.open("POST", "/photo/upload", true);
+                        xhr.open("POST", "https://bambooalbum.herokuapp.com/photo/upload", true);
                         xhr.setRequestHeader('Content-Type', 'application/json');
                         var data = JSON.stringify({ 'userId' : "finaltest", 'url' : downloadURL });
 
