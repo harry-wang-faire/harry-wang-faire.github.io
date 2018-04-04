@@ -7,11 +7,9 @@
 		<meta name="keywords" content="Ruihan Wang" />
 		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
 		<script src="js/jquery.min.js"></script>
-        <script>
-    jQuery(window).load(function(){
-        jQuery(".hameid-loader-overlay").fadeOut(500);
-    });
-</script>
+		 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.js">
+    </script>
+		
 		<script src="js/skel.min.js"></script>
 		<script src="js/init.js"></script>
 		<noscript>
@@ -21,7 +19,20 @@
 		</noscript>
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
 	</head>
-	<body>
+	<body ng-app="myApp">
+	<script>
+var app = angular.module("myApp", ["ngRoute"]);
+app.config(function($routeProvider) {
+    $routeProvider
+    .when("/", {
+        templateUrl : "index.html"
+    })
+    .when("/solarSystem", {
+        templateUrl : "solarSystem.html"
+    })
+});
+</script>
+
 <div class="hameid-loader-overlay"></div>
 
 		<!-- Header -->
