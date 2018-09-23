@@ -34,18 +34,51 @@ class repo{
 var res_table = document.getElementById('result-table');
 var fav_table = document.getElementById('fav-table');
 
-function parseData() {
+function getTags(url) {
+  return new Promise(function (resolve,reject){
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
+
+    xhr.onload = function () {
+      if (this.status >= 200 && this.status < 300) {
+        resolve(xhr.response);
+      } else {
+        reject({
+          status: this.status,
+          statusText: xhr.statusText
+        });
+      }
+    };
+    xhr.onerror = function () {
+      reject({
+        status: this.status,
+        statusText: xhr.statusText
+      });
+    };
+    xhr.send();
+
+  });
+}
+
+async function parseData() {
+  console.log(data[1]);
     for (let i = 0; i < data.length; i++){
       var row = res_table.insertRow(i+1);
       var cell1 = row.insertCell(0);
       var cell2 = row.insertCell(1);
+
       var cell3 = row.insertCell(2);
       var cell4 = row.insertCell(3);
       var temp = new repo(data[i].owner.login + '/' + data[i].name,data[i].language);
       cell1.innerHTML = temp.author_repo;
       cell2.innerHTML = temp.language;
-
-        cell4.innerHTML = "<a class='add_button'> add </a>";
+      var tags = JSON.parse(await getTags(data[i].tags_url));
+      if (tags.length > 0){
+        cell3.innerHTML = tags[0].name;
+      }else{
+        cell3.innerHTML = '-';
+      }
+      cell4.innerHTML = "<a class='add_button'> add </a>";
 
       for (let i = 0; i < fav_table.rows.length; i++){
         if (fav_table.rows[i].cells[0].innerHTML == cell1.innerHTML &&
@@ -63,6 +96,7 @@ function parseData() {
           var cell2 = row.insertCell(1);
           var cell3 = row.insertCell(2);
           var cell4 = row.insertCell(3);
+          cell1.style.align
           cell1.innerHTML = res_table.rows[rindex].cells[0].innerHTML;
           cell2.innerHTML = res_table.rows[rindex].cells[1].innerHTML;
           cell3.innerHTML = res_table.rows[rindex].cells[2].innerHTML;
@@ -87,16 +121,18 @@ function parseData() {
 
 
 function doSearch() {
-  $("#result-table").find("tr:not(:nth-child(1))").remove();
-  data = [];
+  var reminder = document.getElementById('reminder');
   var textbox = document.getElementById('search-input');
   var input = textbox.value;
-  var reminder = document.getElementById('reminder');
   if (input == ""){
     textbox.style.borderColor = "red";
     reminder.style.display = "inline";
     return;
   }
+  $("#result-table").find("tr:not(:nth-child(1))").remove();
+  data = [];
+
+
   var templink = link + input;
   var xhr = new XMLHttpRequest();
   xhr.open('GET', templink, true);
@@ -110,6 +146,7 @@ function doSearch() {
       for (let i = 0; i < 10 && i < response.items.length; i++){
         data[i]=response.items[i];
       }
+
       parseData();
       //console.log(response)
     }

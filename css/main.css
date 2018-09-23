@@ -334,8 +334,14 @@ textarea {
   float: right;
 }
 #result-table{
+  width: 100%;
   table-layout: fixed;
 }
-th,td{
-  padding: 10px;
+#fav-table{
+  width: 100%;
+  table-layout: fixed;
 }
+table,td,th{
+  text-align: center;
+}
+
