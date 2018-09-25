@@ -72,11 +72,16 @@ async function parseData() {
       var temp = new repo(data[i].owner.login + '/' + data[i].name,data[i].language);
       cell1.innerHTML = temp.author_repo;
       cell2.innerHTML = temp.language;
+      try {
       var tags = JSON.parse(await getTags(data[i].tags_url));
       if (tags.length > 0){
         cell3.innerHTML = tags[0].name;
       }else{
         cell3.innerHTML = '-';
+      }
+      } catch (err) {
+        cell3.innerHTML = '-';
+        console.log("You have reach the limit of using github api, please try again later");
       }
       cell4.innerHTML = "<a class='add_button'> add </a>";
 
