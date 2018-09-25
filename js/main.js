@@ -1,5 +1,5 @@
 
-
+var token = "d"+"837e1f33449"+"2bebdbd90f1701396f9db718b3"+"0c";
 var link = "https://api.github.com/search/repositories?q=";
 // Tried to use Github v4 but not able to do so
 // var link = 'https://api.github.com/graphql';
@@ -38,7 +38,33 @@ function getTags(url) {
   return new Promise(function (resolve,reject){
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url);
+    xhr.setRequestHeader("Authorization","token ")
+    xhr.onload = function () {
+      if (this.status >= 200 && this.status < 300) {
+        resolve(xhr.response);
+      } else {
+        reject({
+          status: this.status,
+          statusText: xhr.statusText
+        });
+      }
+    };
+    xhr.onerror = function () {
+      reject({
+        status: this.status,
+        statusText: xhr.statusText
+      });
+    };
+    xhr.send();
 
+  });
+}
+
+function getLink(url) {
+  return new Promise(function (resolve,reject){
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
+    xhr.setRequestHeader("Authorization","token d837e1f334492bebdbd90f1701396f9db718b30c")
     xhr.onload = function () {
       if (this.status >= 200 && this.status < 300) {
         resolve(xhr.response);
@@ -72,6 +98,8 @@ async function parseData() {
       var temp = new repo(data[i].owner.login + '/' + data[i].name,data[i].language);
       cell1.innerHTML = temp.author_repo;
       cell2.innerHTML = temp.language;
+
+      // get tags from tags url
       try {
       var tags = JSON.parse(await getTags(data[i].tags_url));
       if (tags.length > 0){
@@ -83,6 +111,20 @@ async function parseData() {
         cell3.innerHTML = '-';
         console.log("You have reach the limit of using github api, please try again later");
       }
+
+      // get link from link url
+      try {
+        var res = JSON.parse(await getTags(data[i].url));
+        var link = res.html_url;
+        console.log(link);
+        cell1.innerHTML = "<a class ='names' href="+ link +">" + temp.author_repo +"</a>";
+      } catch (err) {
+        console.log("You have reach the limit of using github api, please try again later");
+      }
+
+
+
+
       cell4.innerHTML = "<a class='add_button'> add </a>";
 
       for (let i = 0; i < fav_table.rows.length; i++){
