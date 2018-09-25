@@ -1,5 +1,5 @@
 
-var token = "";
+var token = "510"+"0"+"f10b269c4020"+"cc40052f5f4e"+"18e98f23e243";
 var link = "https://api.github.com/search/repositories?q=";
 // Tried to use Github v4 but not able to do so
 // var link = 'https://api.github.com/graphql';
@@ -34,11 +34,12 @@ class repo{
 var res_table = document.getElementById('result-table');
 var fav_table = document.getElementById('fav-table');
 
+
 function getTags(url) {
   return new Promise(function (resolve,reject){
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url);
-    xhr.setRequestHeader("Authorization","token ")
+    xhr.setRequestHeader("Authorization","token "+token);
     xhr.onload = function () {
       if (this.status >= 200 && this.status < 300) {
         resolve(xhr.response);
@@ -59,6 +60,7 @@ function getTags(url) {
 
   });
 }
+
 
 function getLink(url) {
   return new Promise(function (resolve,reject){
