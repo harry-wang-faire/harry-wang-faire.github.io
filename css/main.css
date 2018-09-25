@@ -326,6 +326,10 @@ textarea {
   text-decoration:underline;
 }
 
+.names{
+  color: black;
+  text-decoration: none;
+}
 #result{
   background-color: #DCCFEF;
   height: 600px;
