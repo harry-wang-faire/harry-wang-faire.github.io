@@ -1,5 +1,5 @@
 
-var token = "d"+"837e1f33449"+"2bebdbd90f1701396f9db718b3"+"0c";
+var token = "";
 var link = "https://api.github.com/search/repositories?q=";
 // Tried to use Github v4 but not able to do so
 // var link = 'https://api.github.com/graphql';
